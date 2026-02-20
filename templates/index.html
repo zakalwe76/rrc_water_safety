@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Rowing Club - Water Safety</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Reading Rowing Club</h1>
+            <h2>Water Safety Conditions</h2>
+        </header>
+
+        <div id="loading" class="loading">
+            <p>Loading conditions...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <p id="error-message"></p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <div class="last-updated">
+                Last updated: <span id="timestamp"></span>
+            </div>
+
+            <div class="current-values">
+                <h3>Current Measurements</h3>
+                <div class="measurements">
+                    <div class="measurement">
+                        <span class="label">River Flow:</span>
+                        <span class="value" id="river-flow-value"></span>
+                    </div>
+                    <div class="measurement">
+                        <span class="label">Wind Speed:</span>
+                        <span class="value" id="wind-speed-value"></span>
+                    </div>
+                    <div class="measurement">
+                        <span class="label">Air Temperature:</span>
+                        <span class="value" id="temperature-value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="boat-categories">
+                <div class="category" id="category-fours">
+                    <h3>Fours, Quads, Eights</h3>
+                    <div class="overall-condition">
+                        <div class="condition-badge" id="overall-fours">
+                            <span id="overall-fours-text"></span>
+                        </div>
+                    </div>
+                    <div class="individual-conditions">
+                        <div class="condition-item">
+                            <span class="condition-label">River Flow:</span>
+                            <span class="condition-badge small" id="river-fours"></span>
+                        </div>
+                        <div class="condition-item">
+                            <span class="condition-label">Wind Speed:</span>
+                            <span class="condition-badge small" id="wind-fours"></span>
+                        </div>
+                        <div class="condition-item">
+                            <span class="condition-label">Air Temperature:</span>
+                            <span class="condition-badge small" id="temp-fours"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category" id="category-singles">
+                    <h3>Singles, Doubles, Pairs</h3>
+                    <div class="overall-condition">
+                        <div class="condition-badge" id="overall-singles">
+                            <span id="overall-singles-text"></span>
+                        </div>
+                    </div>
+                    <div class="individual-conditions">
+                        <div class="condition-item">
+                            <span class="condition-label">River Flow:</span>
+                            <span class="condition-badge small" id="river-singles"></span>
+                        </div>
+                        <div class="condition-item">
+                            <span class="condition-label">Wind Speed:</span>
+                            <span class="condition-badge small" id="wind-singles"></span>
+                        </div>
+                        <div class="condition-item">
+                            <span class="condition-label">Air Temperature:</span>
+                            <span class="condition-badge small" id="temp-singles"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-sources">
+                <h3>Data Sources</h3>
+                <p><strong>River Flow:</strong> <span id="river-source"></span></p>
+                <p><strong>Weather:</strong> <span id="weather-source"></span></p>
+            </div>
+
+            <div class="refresh-info">
+                <p>Data automatically refreshes every 15 minutes</p>
+                <button id="refresh-btn" onclick="loadConditions()">Refresh Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

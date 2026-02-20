@@ -8,4 +8,4 @@ On starting up, the app should do the following things:
 When the page is viewed, the app should do the following:
 1. Check the age of the cached data from the UK Environment Agency's flood monitoring API and the cached data from the University of Reading's METFiDAS weather observations page. If the cached data are older than 15 minutes, clear the cached data and retrieve fresh copies.
 
-2. Calculate the rowing conditions for "Fours, Quads, Eights" and "Singles, Doubles, Pairs" based on the rules specified in file called "rules.md"
+2. Calculate the rowing conditions for the boat categories "Fours, Quads, Eights" and "Singles, Doubles, Pairs" based on the rules specified in file called "rules.md" and then display the overall conditions for the boat categories as well as the individual conditions and values for "River Flow", "Wind Speed", and "Air Temperature".

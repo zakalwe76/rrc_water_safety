@@ -1,0 +1,15 @@
+.git
+.gitignore
+README.md
+spec.md
+rules.md
+*.pyc
+__pycache__
+.pytest_cache
+.coverage
+htmlcov
+.env
+venv
+env
+.venv
+*.log
