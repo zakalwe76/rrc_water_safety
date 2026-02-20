@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(loadConditions, 5 * 60 * 1000);
 });
 
-async function loadConditions() {
+async function loadConditions(forceRefresh = false) {
     const loadingDiv = document.getElementById('loading');
     const errorDiv = document.getElementById('error');
     const contentDiv = document.getElementById('content');
@@ -22,7 +22,9 @@ async function loadConditions() {
     }
     
     try {
-        const response = await fetch('/api/conditions');
+        // Add force parameter if requested
+        const url = forceRefresh ? '/api/conditions?force=true' : '/api/conditions';
+        const response = await fetch(url);
         
         if (!response.ok) {
             throw new Error('Failed to fetch conditions');
@@ -58,6 +60,12 @@ function displayConditions(data) {
     // Update timestamp
     const timestamp = new Date(data.timestamp);
     document.getElementById('timestamp').textContent = timestamp.toLocaleString();
+    
+    // Update cache age
+    if (data.cache_age) {
+        document.getElementById('cache-river').textContent = data.cache_age.river || 0;
+        document.getElementById('cache-weather').textContent = data.cache_age.weather || 0;
+    }
     
     // Update current measurements
     document.getElementById('river-flow-value').textContent = 

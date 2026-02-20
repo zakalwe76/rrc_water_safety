@@ -245,18 +245,44 @@ def calculate_overall_condition(river_cond: str, wind_cond: str, temp_cond: str)
 def update_cache_if_needed():
     """Update cached data if expired"""
     # Check and update river data
+    if cache['river_timestamp']:
+        age_seconds = (datetime.now() - cache['river_timestamp']).total_seconds()
+        age_minutes = age_seconds / 60
+        logger.info(f"River cache age: {age_minutes:.1f} minutes")
+    else:
+        logger.info("River cache is empty")
+    
     if is_cache_expired(cache['river_timestamp']):
+        logger.info("River cache expired - fetching fresh data")
         river_data = fetch_river_data()
         if river_data:
             cache['river_data'] = river_data
             cache['river_timestamp'] = datetime.now()
+            logger.info("River cache updated successfully")
+        else:
+            logger.error("Failed to update river cache")
+    else:
+        logger.info("River cache is still valid")
     
     # Check and update weather data
+    if cache['weather_timestamp']:
+        age_seconds = (datetime.now() - cache['weather_timestamp']).total_seconds()
+        age_minutes = age_seconds / 60
+        logger.info(f"Weather cache age: {age_minutes:.1f} minutes")
+    else:
+        logger.info("Weather cache is empty")
+    
     if is_cache_expired(cache['weather_timestamp']):
+        logger.info("Weather cache expired - fetching fresh data")
         weather_data = fetch_weather_data()
         if weather_data:
             cache['weather_data'] = weather_data
             cache['weather_timestamp'] = datetime.now()
+            logger.info("Weather cache updated successfully")
+        else:
+            logger.error("Failed to update weather cache")
+    else:
+        logger.info("Weather cache is still valid")
 
 
 @app.route('/')
@@ -268,6 +294,16 @@ def index():
 @app.route('/api/conditions')
 def get_conditions():
     """API endpoint to get current rowing conditions"""
+    from flask import request
+    
+    # Check if force refresh is requested
+    force_refresh = request.args.get('force', 'false').lower() == 'true'
+    
+    if force_refresh:
+        logger.info("Force refresh requested - clearing cache")
+        cache['river_timestamp'] = None
+        cache['weather_timestamp'] = None
+    
     update_cache_if_needed()
     
     # Check if we have valid cached data
