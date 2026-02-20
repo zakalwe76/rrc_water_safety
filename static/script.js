@@ -77,9 +77,9 @@ function displayConditions(data) {
     
     // Update data sources
     document.getElementById('river-source').textContent = 
-        `Environment Agency - ${formatDateTime(data.data.river_datetime)}`;
+        formatDateTime(data.data.river_datetime);
     document.getElementById('weather-source').textContent = 
-        `University of Reading - ${data.data.weather_observation || 'Recent observation'}`;
+        data.data.weather_observation || 'Recent observation';
     
     // Update Fours, Quads, Eights
     const foursConditions = data.conditions['Fours, Quads, Eights'];

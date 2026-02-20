@@ -109,13 +109,13 @@ def fetch_weather_data() -> Optional[Dict]:
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Extract the observation timestamp from the top of the page
+        # Extract the observation timestamp from the first h2 tag
         observation_time = None
-        for p in soup.find_all('p'):
-            text = p.get_text()
-            if 'Observation time:' in text or 'latest observations' in text.lower():
-                observation_time = text
-                break
+        h2_tag = soup.find('h2')
+        if h2_tag:
+            # H2 contains something like: "University of Reading METFiDAS weather observations for\n20 Feb 2026  at time 1430 UTC"
+            observation_time = h2_tag.get_text(strip=True)
+            logger.info(f"Found observation time: {observation_time}")
         
         # Get all page text
         page_text = soup.get_text()

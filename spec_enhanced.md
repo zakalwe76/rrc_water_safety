@@ -24,6 +24,20 @@ When the page is viewed, the app should do the following:
 
 5. Automatically refresh the displayed data periodically (recommended: every 5 minutes) to check if the backend cache needs updating.
 
+### Data Source Transparency
+
+6. Display the data sources with clickable links:
+   - **River Flow**: Link to the Environment Agency API endpoint
+     - URL: http://environment.data.gov.uk/flood-monitoring/id/measures/2200TH-flow--Mean-15_min-m3_s
+     - Display: "Environment Agency" (clickable link) followed by the reading timestamp
+   
+   - **Weather Data**: Link to the University of Reading weather page
+     - URL: https://www.met.reading.ac.uk/weatherdata/Reading_AWS_weather_report.html
+     - Display: "University of Reading" (clickable link) followed by the observation timestamp
+   
+   - Links should open in a new tab/window (use `target="_blank"` and `rel="noopener noreferrer"` for security)
+   - Style links to be visually distinct (e.g., colored, underlined on hover)
+
 ---
 
 ## Technical Implementation Notes
@@ -74,7 +88,20 @@ The Environment Agency API returns JSON with the following structure:
 
 ### Weather Data HTML Parsing
 
-The University of Reading weather page is HTML-formatted with a table structure. The data appears as:
+The University of Reading weather page is HTML-formatted. 
+
+**Observation Timestamp:**
+The observation date and time are located in the first `<h2>` tag in the page body:
+
+```html
+<h2>
+University of Reading METFiDAS weather observations for
+20 Feb 2026  at time 1430 UTC
+</h2>
+```
+
+**Temperature and Wind Data:**
+The measurement data appears in a table structure:
 
 ```html
 <table>
@@ -99,12 +126,18 @@ Air temperature: ºC
 ```
 
 **Parsing Requirements:**
-- The label and unit come **before** the numeric value (on separate lines when whitespace-collapsed)
-- Use regex patterns that account for whitespace:
-  - Temperature: `Air temperature:\s*ºC\s*([-+]?\d+\.?\d*)`
-  - Wind gust: `10-metre maximum 3-sec wind gust:\s*m/s\s*([-+]?\d+\.?\d*)`
-- The observation timestamp is typically in a `<p>` tag containing text like "Observation time:" or "latest observations"
-- Parse the full page text rather than trying to navigate HTML structure (which may change)
+
+1. **Observation Timestamp**: 
+   - Extract from first `<h2>` tag using: `soup.find('h2').get_text(strip=True)`
+   - Format: "University of Reading METFiDAS weather observations for DD MMM YYYY at time HHMM UTC"
+   - Display this full text to users (it's already human-readable)
+
+2. **Temperature and Wind**:
+   - The label and unit come **before** the numeric value (on separate lines when whitespace-collapsed)
+   - Use regex patterns that account for whitespace:
+     - Temperature: `Air temperature:\s*ºC\s*([-+]?\d+\.?\d*)`
+     - Wind gust: `10-metre maximum 3-sec wind gust:\s*m/s\s*([-+]?\d+\.?\d*)`
+   - Parse the full page text rather than trying to navigate HTML structure (which may change)
 
 ### Caching Implementation
 
@@ -329,6 +362,7 @@ Consider implementing:
 
 - [ ] Fetch from Environment Agency API with proper JSON parsing (`items.latestReading.value`)
 - [ ] Parse University of Reading HTML with correct regex patterns
+- [ ] Extract observation timestamp from first `<h2>` tag
 - [ ] Implement 15-minute cache with timestamp checking
 - [ ] Use single worker or shared cache solution
 - [ ] Add force refresh mechanism (`?force=true`)
@@ -338,11 +372,15 @@ Consider implementing:
 - [ ] Handle network errors gracefully
 - [ ] Display cache age in UI
 - [ ] Add "Refresh Now" button
+- [ ] Add clickable data source links (Environment Agency and University of Reading)
+- [ ] Ensure links open in new tab with proper security attributes
 - [ ] Implement frontend auto-refresh (5 minutes)
 - [ ] Test cache expiry (can use 30-second expiry for quick test)
 - [ ] Test force refresh functionality
 - [ ] Verify logging shows cache decisions
 - [ ] Test with real APIs and verify data accuracy
+- [ ] Verify observation timestamp displays correctly
+- [ ] Verify data source links work and open in new tabs
 - [ ] Implement Demo Mode for testing without APIs
 - [ ] Document deployment steps
 - [ ] Create Docker container with single worker
