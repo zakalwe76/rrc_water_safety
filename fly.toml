@@ -1,24 +1,23 @@
-# fly.toml app configuration file generated for rrc-water-safety
+# fly.toml app configuration file generated for rrc-water-safety on 2026-02-20T15:43:05Z
+#
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "rrc-water-safety"
-primary_region = "lhr"  # London Heathrow - closest to Reading
+app = 'rrc-water-safety'
+primary_region = 'lhr'
 
 [build]
-  dockerfile = "Dockerfile"
-
-[env]
-  DEMO_MODE = "false"
-  FLASK_ENV = "production"
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = false
-  auto_start_machines = false
-  min_machines_running = 1
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  cpu_kind = "shared"
+  memory = '1gb'
+  cpu_kind = 'shared'
   cpus = 1
   memory_mb = 256
