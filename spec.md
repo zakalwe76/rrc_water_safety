@@ -1,4 +1,4 @@
-I'd like to develop a simple web app that can be deployed using Docker that evaluates weather data and water conditions and compares them against Reading Rowing Club's water safety rules to determine if it is safe to row today. 
+
 # Functional Specifications
 On starting up, the app should do the following things:
 1. Connect to the UK Environment Agency's flood monitoring API at http://environment.data.gov.uk/flood-monitoring/id/measures/2200TH-flow--Mean-15_min-m3_s and retrieve all "items" listed in the json output and cache the results.
