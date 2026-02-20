@@ -66,17 +66,31 @@ def fetch_river_data() -> Optional[Dict]:
         data = response.json()
         
         # Extract the latest flow value from items
-        if 'items' in data and len(data['items']) > 0:
-            # Get the most recent reading
-            latest = data['items'][0]
-            result = {
-                'flow': latest.get('value'),
-                'dateTime': latest.get('dateTime'),
-                'items': data['items']
-            }
-            logger.info(f"Successfully fetched river data: flow={result['flow']} m³/s")
-            return result
-        logger.warning("No items found in river data response")
+        # API structure: items is an object with latestReading property
+        if 'items' in data:
+            items = data['items']
+            # Check if items has latestReading (new API structure)
+            if isinstance(items, dict) and 'latestReading' in items:
+                latest = items['latestReading']
+                result = {
+                    'flow': latest.get('value'),
+                    'dateTime': latest.get('dateTime'),
+                    'items': items
+                }
+                logger.info(f"Successfully fetched river data: flow={result['flow']} m³/s at {result['dateTime']}")
+                return result
+            # Fallback to old API structure (items as array)
+            elif isinstance(items, list) and len(items) > 0:
+                latest = items[0]
+                result = {
+                    'flow': latest.get('value'),
+                    'dateTime': latest.get('dateTime'),
+                    'items': items
+                }
+                logger.info(f"Successfully fetched river data: flow={result['flow']} m³/s")
+                return result
+        
+        logger.warning(f"Unexpected API structure. Data keys: {list(data.keys())}")
         return None
     except Exception as e:
         logger.error(f"Error fetching river data: {e}")
@@ -103,24 +117,26 @@ def fetch_weather_data() -> Optional[Dict]:
                 observation_time = text
                 break
         
-        # Extract temperature
-        temperature = None
-        temp_pattern = r'Air temperature:\s*([-+]?\d+\.?\d*)\s*ºC'
-        
-        # Extract wind gust
-        wind_gust = None
-        wind_pattern = r'10-metre maximum 3-sec wind gust:\s*([-+]?\d+\.?\d*)\s*m/s'
-        
-        # Search through all text content
+        # Get all page text
         page_text = soup.get_text()
+        
+        # Extract temperature - pattern matches "Air temperature: ºC" followed by the value
+        temperature = None
+        temp_pattern = r'Air temperature:\s*ºC\s*([-+]?\d+\.?\d*)'
+        
+        # Extract wind gust - pattern matches "10-metre maximum 3-sec wind gust: m/s" followed by the value
+        wind_gust = None
+        wind_pattern = r'10-metre maximum 3-sec wind gust:\s*m/s\s*([-+]?\d+\.?\d*)'
         
         temp_match = re.search(temp_pattern, page_text)
         if temp_match:
             temperature = float(temp_match.group(1))
+            logger.info(f"Parsed temperature: {temperature}°C")
         
         wind_match = re.search(wind_pattern, page_text)
         if wind_match:
             wind_gust = float(wind_match.group(1))
+            logger.info(f"Parsed wind gust: {wind_gust} m/s")
         
         if temperature is not None and wind_gust is not None:
             result = {
