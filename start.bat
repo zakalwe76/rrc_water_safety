@@ -33,7 +33,7 @@ echo ========================================
 echo SUCCESS! Application is running.
 echo ========================================
 echo.
-echo Access the app at: http://localhost:5000
+echo Access the app at: http://localhost:8080
 echo.
 echo To stop the application, run: docker-compose down
 echo.

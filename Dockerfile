@@ -12,7 +12,7 @@ COPY templates/ templates/
 COPY static/ static/
 
 # Expose port
-EXPOSE 5000
+EXPOSE 8080
 
 # Run the application with gunicorn (single worker to maintain cache consistency)
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--timeout", "120", "--log-level", "info", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "120", "--log-level", "info", "app:app"]
