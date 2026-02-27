@@ -242,6 +242,18 @@ def calculate_overall_condition(river_cond: str, wind_cond: str, temp_cond: str)
     return most_severe
 
 
+def get_condition_guidance(condition: str) -> str:
+    """Get guidance text for a given condition"""
+    guidance = {
+        "NO ROWING": "No Rowing",
+        "Black": "No Rowing",
+        "Red": "Dangerously high flow. See Club rules for limited exceptions.",
+        "Amber": "No novice coxes or steerpersons.",
+        "Green": "No Restrictions."
+    }
+    return guidance.get(condition, "Unknown condition")
+
+
 def update_cache_if_needed():
     """Update cached data if expired"""
     # Check and update river data
@@ -327,6 +339,7 @@ def get_conditions():
         
         categories_data[category] = {
             'overall': overall_cond,
+            'guidance': get_condition_guidance(overall_cond),
             'river': river_cond,
             'wind': wind_cond,
             'temperature': temp_cond

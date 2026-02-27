@@ -11,8 +11,13 @@ This folder contains detailed documentation of all changes, fixes, and improveme
 - **CACHE_TESTING.md** - Guide for testing cache functionality
 - **UI_IMPROVEMENTS.md** - Data source links and timestamp fix documentation
 
+### Features & Enhancements
+- **CONDITION_GUIDANCE_FEATURE.md** - Implementation of condition guidance text display
+- **SAFETY_DISCLAIMERS.md** - Safety disclaimers and legal protection implementation
+
 ### Specifications & Enhancements
 - **SPEC_ENHANCEMENT_SUMMARY.md** - What was added to the original spec and why
+- **SPECIFICATION_UPDATE_2026-02-27.md** - February 2026 specification updates (condition guidance, port 8080)
 
 ### Testing
 - **TESTING_RESULTS.md** - Demo mode and testing documentation
@@ -20,6 +25,7 @@ This folder contains detailed documentation of all changes, fixes, and improveme
 ### Deployment Guides
 - **FREE_DEPLOYMENT_OPTIONS.md** - Comprehensive guide to free hosting platforms
 - **FLYIO_GITHUB_DEPLOYMENT.md** - Step-by-step Fly.io deployment via GitHub Actions
+- **PORT_8080_CONFIGURATION.md** - Port configuration change for Fly.io compatibility
 
 ## 📖 Reading Order
 
@@ -38,6 +44,7 @@ If you're new to the project or want to understand the development journey:
 - API not working? → NETWORK_TROUBLESHOOTING.md
 - Cache not refreshing? → CACHE_FIX_DOCUMENTATION.md
 - Want to deploy? → FLYIO_GITHUB_DEPLOYMENT.md or FREE_DEPLOYMENT_OPTIONS.md
+- Port configuration? → PORT_8080_CONFIGURATION.md
 - Testing the app? → TESTING_RESULTS.md, CACHE_TESTING.md
 
 ## 📝 Document Purpose
@@ -55,6 +62,7 @@ These documents serve as:
 3. **Multi-Worker Cache Issues** - Why single worker is needed for in-memory cache
 4. **Force Refresh Implementation** - How to bypass cache on demand
 5. **Deployment Options** - Evaluation of free hosting platforms
+6. **User Experience** - Condition guidance improves clarity and safety
 
 ## 💡 Why These Documents Matter
 
@@ -73,6 +81,6 @@ These documents are living documentation. When you make changes to the app:
 
 ---
 
-**Last Updated:** February 2026
+**Last Updated:** February 27, 2026
 **Project:** Reading Rowing Club Water Safety App
 **Status:** Complete & Production Ready
