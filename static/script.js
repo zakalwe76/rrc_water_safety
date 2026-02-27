@@ -94,8 +94,14 @@ function updateCategoryDisplay(categoryId, conditions) {
     // Update overall condition
     const overallElement = document.getElementById(`overall-${categoryId}`);
     const overallTextElement = document.getElementById(`overall-${categoryId}-text`);
+    const guidanceElement = document.getElementById(`guidance-${categoryId}`);
     
     overallTextElement.textContent = conditions.overall;
+    
+    // Update guidance text
+    if (guidanceElement && conditions.guidance) {
+        guidanceElement.textContent = conditions.guidance;
+    }
     
     // Remove all condition classes
     overallElement.className = 'condition-badge';

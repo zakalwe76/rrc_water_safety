@@ -13,6 +13,17 @@
             <h2>Water Safety Conditions</h2>
         </header>
 
+        <div class="safety-notice-top">
+            <span class="notice-icon">⚠️</span>
+            <div class="notice-content">
+                <strong>Safety Reminder</strong><br>
+                This tool assesses water conditions based on club safety rules, but you are responsible 
+                for your own safety. Always use your judgment and consider your personal experience level. 
+                If you're uncertain about conditions or your ability to row safely, consult your coach 
+                or squad vice captain before going on the water.
+            </div>
+        </div>
+
         <div id="loading" class="loading">
             <p>Loading conditions...</p>
         </div>
@@ -52,6 +63,7 @@
                         <div class="condition-badge" id="overall-fours">
                             <span id="overall-fours-text"></span>
                         </div>
+                        <div class="condition-guidance" id="guidance-fours"></div>
                     </div>
                     <div class="individual-conditions">
                         <div class="condition-item">
@@ -75,6 +87,7 @@
                         <div class="condition-badge" id="overall-singles">
                             <span id="overall-singles-text"></span>
                         </div>
+                        <div class="condition-guidance" id="guidance-singles"></div>
                     </div>
                     <div class="individual-conditions">
                         <div class="condition-item">
@@ -102,6 +115,18 @@
             <div class="refresh-info">
                 <p>Data automatically refreshes every 15 minutes</p>
                 <button id="refresh-btn" onclick="loadConditions(true)">Refresh Now</button>
+            </div>
+
+            <div class="safety-disclaimer-bottom">
+                <h4>IMPORTANT SAFETY DISCLAIMER</h4>
+                <p>
+                    The information provided by this application is for guidance purposes only and does not 
+                    constitute professional safety advice. You must take personal responsibility for your safety 
+                    on the water. This tool should be used in conjunction with your own assessment, experience, 
+                    and judgment. If you are uncertain about water conditions or your ability to row safely, 
+                    you must consult with your coach or squad vice captain before proceeding. The club and 
+                    application developers accept no liability for incidents arising from use of this tool.
+                </p>
             </div>
         </div>
     </div>

@@ -24,6 +24,21 @@ When the page is viewed, the app should do the following:
 
 5. Automatically refresh the displayed data periodically (recommended: every 5 minutes) to check if the backend cache needs updating.
 
+### Condition Guidance Display
+
+7. Display guidance text for each condition level to help rowers understand restrictions:
+   - **Green**: "No Restrictions."
+   - **Amber**: "No novice coxes or steerpersons."
+   - **Red**: "Dangerously high flow. See Club rules for limited exceptions."
+   - **Black**: "No Rowing"
+   - **NO ROWING**: "No Rowing" (when multiple severe conditions are present)
+   
+   Requirements:
+   - Display guidance prominently under the overall condition badge for each boat category
+   - Text should be clearly visible but not overwhelming
+   - Source guidance from `rules.md` conditions table
+   - Guidance should update automatically when conditions change
+
 ### Data Source Transparency
 
 6. Display the data sources with clickable links:
@@ -280,15 +295,26 @@ This logging is crucial for:
 When containerizing the application:
 
 1. **Single Worker**: Use `gunicorn --workers 1` for cache consistency
-2. **Logging**: Configure to stdout for `docker logs` visibility
-3. **Timeouts**: Increase gunicorn timeout for slow API responses: `--timeout 120`
-4. **Health Checks**: Consider implementing `/health` endpoint
-5. **Proxy Settings**: May need HTTP_PROXY environment variables in corporate environments
+2. **Port Configuration**: Use port 8080 (required for Fly.io deployment)
+3. **Logging**: Configure to stdout for `docker logs` visibility
+4. **Timeouts**: Increase gunicorn timeout for slow API responses: `--timeout 120`
+5. **Health Checks**: Consider implementing `/health` endpoint
+6. **Proxy Settings**: May need HTTP_PROXY environment variables in corporate environments
 
 Example Dockerfile CMD:
 ```dockerfile
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--timeout", "120", "--log-level", "info", "app:app"]
+# Expose port 8080 for Fly.io compatibility
+EXPOSE 8080
+
+# Run with gunicorn on port 8080
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "120", "--log-level", "info", "app:app"]
 ```
+
+**Port Configuration Notes:**
+- **Production (Fly.io)**: Container runs on port 8080
+- **Local Development**: docker-compose maps `localhost:5000` → container `8080`
+- **Why 8080**: Fly.io's default expected port for applications
+- **Port Mapping**: Use `"5000:8080"` in docker-compose.yml for local dev convenience
 
 ### Testing Recommendations
 
@@ -372,25 +398,42 @@ Consider implementing:
 - [ ] Handle network errors gracefully
 - [ ] Display cache age in UI
 - [ ] Add "Refresh Now" button
+- [ ] Implement condition guidance display for all condition levels
+- [ ] Display guidance text under overall condition badge
+- [ ] Ensure guidance updates automatically with conditions
 - [ ] Add clickable data source links (Environment Agency and University of Reading)
 - [ ] Ensure links open in new tab with proper security attributes
 - [ ] Implement frontend auto-refresh (5 minutes)
+- [ ] Configure container to run on port 8080
+- [ ] Set up port mapping (5000:8080) in docker-compose for local dev
 - [ ] Test cache expiry (can use 30-second expiry for quick test)
 - [ ] Test force refresh functionality
 - [ ] Verify logging shows cache decisions
 - [ ] Test with real APIs and verify data accuracy
 - [ ] Verify observation timestamp displays correctly
 - [ ] Verify data source links work and open in new tabs
+- [ ] Verify condition guidance displays for all conditions
 - [ ] Implement Demo Mode for testing without APIs
 - [ ] Document deployment steps
-- [ ] Create Docker container with single worker
-- [ ] Test in production environment
+- [ ] Create Docker container with single worker on port 8080
+- [ ] Test in production environment (Fly.io)
 
 ---
 
 ## Reference
 
-- Original spec: `spec.md`
-- Safety rules: `rules.md`
-- Implementation guide: See project README.md
-- Troubleshooting: See NETWORK_TROUBLESHOOTING.md and CACHE_FIX_DOCUMENTATION.md
+- **Original spec**: `spec.md`
+- **Safety rules**: `rules.md`
+- **Main documentation**: `README.md`
+- **Quick start guide**: `USAGE.md`
+
+**Change Log Documentation** (in `change_log/` folder):
+- **Implementation details**: `change_log/PROJECT_SUMMARY.md`
+- **Network troubleshooting**: `change_log/NETWORK_TROUBLESHOOTING.md`
+- **Cache implementation**: `change_log/CACHE_FIX_DOCUMENTATION.md`
+- **UI improvements**: `change_log/UI_IMPROVEMENTS.md`
+- **Condition guidance feature**: `change_log/CONDITION_GUIDANCE_FEATURE.md`
+- **Port configuration**: `change_log/PORT_8080_CONFIGURATION.md`
+- **Deployment options**: `change_log/FREE_DEPLOYMENT_OPTIONS.md`
+- **Fly.io deployment**: `change_log/FLYIO_GITHUB_DEPLOYMENT.md`
+- **All documentation**: `change_log/README.md` (index)

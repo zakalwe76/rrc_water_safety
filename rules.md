@@ -26,6 +26,14 @@
 | Amber     | 3.0 to 6.9           | 5.0 to 8.9              |
 | Green     | > 7.0                | > 9.0                   |
 
+# Conditions
+| condition | Guidance                                                      |
+|-----------|---------------------------------------------------------------|
+| Black     | No Rowing                                                     |
+| Red       | Dangerously high flow. See Club rules for limited exceptions. |
+| Amber     | No novice coxes or steerpersons.                              |
+| Green     | No Restrictions.                                              |
+
 # Calculating Overall Rowing Conditions
 
 If there are two or more "Red" conditions or one "Black" condition then the overall conditions are "NO ROWING" and there is no rowing
