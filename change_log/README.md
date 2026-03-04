@@ -4,6 +4,9 @@ This folder contains detailed documentation of all changes, fixes, and improveme
 
 ## 📁 Contents
 
+### Security Updates
+- **SECURITY_UPDATE_2026-03-04.md** - Critical dependency vulnerability patches (8 CVEs fixed)
+
 ### Implementation & Troubleshooting
 - **PROJECT_SUMMARY.md** - Complete project overview and feature list
 - **NETWORK_TROUBLESHOOTING.md** - API parsing issues and solutions
