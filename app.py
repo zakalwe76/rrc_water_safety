@@ -247,7 +247,7 @@ def get_condition_guidance(condition: str) -> str:
     guidance = {
         "NO ROWING": "No Rowing",
         "Black": "No Rowing",
-        "Red": "Dangerously high flow. See Club rules for limited exceptions.",
+        "Red": "Dangerous Rowing Conditions! See Club rules for limited exceptions.",
         "Amber": "No novice coxes or steerpersons.",
         "Green": "No Restrictions."
     }
